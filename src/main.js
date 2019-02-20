@@ -19,7 +19,7 @@ const filterTemplate = (name, amount = Math.floor(Math.random() * 10), isChecked
 ;
 
 /* Функция отрисовки фильтров на странице */
-(function () {
+(() => {
   filtersName.forEach(function(filter) {
     filtersSection.innerHTML += filterTemplate(filter);
   });

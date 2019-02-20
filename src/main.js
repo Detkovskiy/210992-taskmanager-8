@@ -20,7 +20,7 @@ const filterTemplate = (name, amount = Math.floor(Math.random() * 10), isChecked
 
 /* Функция отрисовки фильтров на странице */
 (() => {
-  filtersName.forEach(function(filter) {
+  filtersName.forEach(function (filter) {
     filtersSection.innerHTML += filterTemplate(filter);
   });
 })();
@@ -161,7 +161,7 @@ const cardTemplate = () => {
                 </div>
               </div>
             </form>
-          </article>`
+          </article>`;
 };
 const amountCardDefault = 7;
 
@@ -175,10 +175,10 @@ const renderCard = function (amount) {
 
 /* Обработчик клика по фильтру */
 const onClickFilter = () => {
-  const filterLabel = filtersSection.querySelectorAll('.filter__label');
+  const filterLabel = filtersSection.querySelectorAll(`.filter__label`);
   for (let i = 0; i < filterLabel.length; i++) {
-    filterLabel[i].addEventListener('click', function () {
-      boardTasks.innerHTML = '';
+    filterLabel[i].addEventListener(`click`, function () {
+      boardTasks.innerHTML = ``;
       renderCard(Math.floor(Math.random() * 10));
     });
   }

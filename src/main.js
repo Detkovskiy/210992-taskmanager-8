@@ -2,32 +2,87 @@
 
 const filtersSection = document.querySelector(`.main__filter`);
 const boardTasks = document.querySelector(`.board__tasks`);
-const filtersName = [`All`, `Overdue`, `Today`, `Favorites`, `Repeating`, `Tags`, `Archive`];
 
-/* Шаблон фильтра */
-const filterTemplate = (name, amount = Math.floor(Math.random() * 10), isChecked = false) =>
-  `<input
-    type="radio"
-    id="filter__${name.toLowerCase()}"
-    class="filter__input visually-hidden"
-    name="filter"
-    ${isChecked ? `checked` : ``}
-  />
-  <label for="filter__${name.toLowerCase()}" class="filter__label">
-    ${name} <span class="filter__${name.toLowerCase()}-count">${amount}</span></label
-  >`
-;
+const filtersName = [
+  {
+    label: `ALL`,
+    count: 5,
+    checked: true,
+  },
+  {
+    label: `Overdue`,
+    count: 2
+  },
+  {
+    label: `Today`,
+    count: 2
+  },
+  {
+    label: `Favorites`,
+    count: 2
+  },
+  {
+    label: `Repeating`,
+    count: 2,
+    disabled: true
+  },
+  {
+    label: `Tags`,
+    count: 2
+  },
+  {
+    label: `Archive`,
+    count: 2,
+    disabled: true
+  }
+];
+
+const getRandomFromInterval = (min, max) => Math.random() * (max - min) + min;
+
+/* Функция отрисовки контента */
+const render = (root, content) => {
+  root.innerHTML = content;
+};
 
 /* Функция отрисовки фильтров на странице */
-(() => {
-  filtersName.forEach(function (filter) {
-    filtersSection.innerHTML += filterTemplate(filter);
-  });
-})();
+const renderFilter = (filters) => {
+  let content = ``;
 
-/* Шаблон карточки */
-const cardTemplate = () => {
-  return `<article class="card card--pink card--repeat">
+  /* Шаблон фильтра */
+  const filterTemplate = (filter) => (
+    `<input
+      type="radio"
+      id="filter__${filter.label.toLowerCase()}"
+      class="filter__input visually-hidden"
+      name="filter"
+      ${filter.checked ? `checked` : ``}
+      ${filter.disabled ? `disabled` : ``}
+    />
+    <label 
+      for="filter__${filter.label.toLowerCase()}" 
+      class="filter__label">${filter.label} 
+      <span class="filter__${filter.label.toLowerCase()}-count">${filter.count}</span>
+    </label>`
+  );
+
+  /* Заполнение шаблона */
+  filters.forEach((filter) => {
+    content += filterTemplate(filter);
+  });
+
+  /* Вывод фильтров на станицу */
+  render(filtersSection, content);
+
+  /* Обработчик выбора фильтра */
+  filtersSection.addEventListener(`change`, (evt) => renderCard(getRandomFromInterval(3,10)));
+};
+
+/* Функция отрисовки карточки */
+const renderCard = (count) => {
+  let content = ``;
+
+  /* Шаблон карточки */
+  const cardTemplate = () => (`<article class="card card--pink card--repeat">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">
@@ -161,29 +216,19 @@ const cardTemplate = () => {
                 </div>
               </div>
             </form>
-          </article>`;
-};
-const amountCardDefault = 7;
+          </article>`);
 
-/* Функция отрисовки карточки */
-const renderCard = function (amount) {
-  while (amount) {
-    boardTasks.innerHTML += cardTemplate();
-    amount--;
+  let i = 0;
+
+  while(i < count) {
+    content += cardTemplate();
+    i++;
   }
+
+  /* Вывод фильтров на станицу */
+  render(boardTasks, content);
 };
 
-/* Обработчик клика по фильтру */
-const onClickFilter = () => {
-  const filterLabel = filtersSection.querySelectorAll(`.filter__label`);
-  for (let i = 0; i < filterLabel.length; i++) {
-    filterLabel[i].addEventListener(`click`, function () {
-      boardTasks.innerHTML = ``;
-      renderCard(Math.floor(Math.random() * 10));
-    });
-  }
-};
 
-/* Отрисовка данных на странице */
-renderCard(amountCardDefault);
-onClickFilter();
+renderFilter(filtersName);
+renderCard(7);

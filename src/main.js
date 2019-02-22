@@ -74,7 +74,7 @@ const renderFilter = (filters) => {
   render(filtersSection, content);
 
   /* Обработчик выбора фильтра */
-  filtersSection.addEventListener(`change`, (evt) => renderCard(getRandomFromInterval(3,10)));
+  filtersSection.addEventListener(`change`, () => renderCard(getRandomFromInterval(3, 10)));
 };
 
 /* Функция отрисовки карточки */
@@ -220,7 +220,7 @@ const renderCard = (count) => {
 
   let i = 0;
 
-  while(i < count) {
+  while (i < count) {
     content += cardTemplate();
     i++;
   }

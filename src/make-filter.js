@@ -13,16 +13,16 @@ export default (filters) => {
   const getfilter = (filter) => (
     `<input
       type="radio"
-      id="filter__${filter.label.toLowerCase()}"
+      id="filter__${filter.label}"
       class="filter__input visually-hidden"
       name="filter"
       ${filter.checked ? `checked` : ``}
       ${filter.disabled ? `disabled` : ``}
     />
     <label 
-      for="filter__${filter.label.toLowerCase()}" 
+      for="filter__${filter.label}" 
       class="filter__label">${filter.label} 
-      <span class="filter__${filter.label.toLowerCase()}-count">${filter.count}</span>
+      <span class="filter__${filter.label}-count">${filter.count}</span>
     </label>`
   );
 

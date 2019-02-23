@@ -3,33 +3,33 @@ import renderCard from '../src/make-task.js';
 
 const filtersName = [
   {
-    label: `ALL`,
+    label: `all`,
     count: 5,
     checked: true,
   },
   {
-    label: `Overdue`,
+    label: `overdue`,
     count: 2
   },
   {
-    label: `Today`,
+    label: `today`,
     count: 2
   },
   {
-    label: `Favorites`,
+    label: `favorites`,
     count: 2
   },
   {
-    label: `Repeating`,
+    label: `repeating`,
     count: 2,
     disabled: true
   },
   {
-    label: `Tags`,
+    label: `tags`,
     count: 2
   },
   {
-    label: `Archive`,
+    label: `archive`,
     count: 2,
     disabled: true
   }

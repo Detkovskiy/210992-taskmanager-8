@@ -1,8 +1,6 @@
-import filterTemplate from '../src/make-filter.js';
-import cardTemplate from '../src/make-task.js';
+import renderFilter, {filtersSection} from '../src/make-filter.js';
+import renderCard from '../src/make-task.js';
 
-const filtersSection = document.querySelector(`.main__filter`);
-const boardTasks = document.querySelector(`.board__tasks`);
 const filtersName = [
   {
     label: `ALL`,
@@ -37,41 +35,9 @@ const filtersName = [
   }
 ];
 
-const getRandomFromInterval = (min, max) => Math.random() * (max - min) + min;
-
-const renderFilter = (filters) => {
-  let content = ``;
-
-  /* Заполнение шаблона */
-  filters.forEach((filter) => {
-    content += filterTemplate(filter);
-  });
-
-  /* Вывод фильтров на станицу */
-  render(filtersSection, content);
-
-  /* Обработчик выбора фильтра */
-  filtersSection.addEventListener(`change`, () => renderCard(getRandomFromInterval(3, 10)));
-};
-
-/* Функция отрисовки контента */
-const render = (root, content) => {
-  root.innerHTML = content;
-};
-
-/* Функция отрисовки карточки */
-const renderCard = (count) => {
-  let content = ``;
-  let i = 0;
-
-  while (i < count) {
-    content += cardTemplate();
-    i++;
-  }
-
-  /* Вывод фильтров на станицу */
-  render(boardTasks, content);
-};
-
 renderFilter(filtersName);
 renderCard(7);
+
+/* Обработчик выбора фильтра */
+const getRandomFromInterval = (min, max) => Math.random() * (max - min) + min;
+filtersSection.addEventListener(`change`, () => renderCard(getRandomFromInterval(3, 10)));

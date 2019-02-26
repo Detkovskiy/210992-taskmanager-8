@@ -1,7 +1,10 @@
-import renderFilter, {filtersSection} from '../src/make-filter.js';
+import renderFilter from '../src/make-filter.js';
 import renderCard from '../src/make-task.js';
+import getRandomFromInterval, {render} from '../src/utils';
 
-const filtersName = [
+const filtersSection = document.querySelector(`.main__filter`);
+const boardTasks = document.querySelector(`.board__tasks`);
+const FILTER_NAME = [
   {
     label: `all`,
     count: 5,
@@ -35,9 +38,9 @@ const filtersName = [
   }
 ];
 
-renderFilter(filtersName);
-renderCard(7);
+/* Вывод фильтров на станицу */
+render(filtersSection, renderFilter(FILTER_NAME));
+render(boardTasks, renderCard(7));
 
 /* Обработчик выбора фильтра */
-const getRandomFromInterval = (min, max) => Math.random() * (max - min) + min;
-filtersSection.addEventListener(`change`, () => renderCard(getRandomFromInterval(3, 10)));
+filtersSection.addEventListener(`change`, () => render(boardTasks, renderCard(getRandomFromInterval(3, 10))));

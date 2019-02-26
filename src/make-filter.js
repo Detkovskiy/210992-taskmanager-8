@@ -1,11 +1,3 @@
-const filtersSection = document.querySelector(`.main__filter`);
-
-/* Функция отрисовки контента */
-const render = (root, content) => {
-  root.innerHTML = content;
-};
-
-export {filtersSection};
 export default (filters) => {
   let content = ``;
 
@@ -31,6 +23,5 @@ export default (filters) => {
     content += getfilter(filter);
   });
 
-  /* Вывод фильтров на станицу */
-  render(filtersSection, content);
+  return content;
 };

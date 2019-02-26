@@ -1,10 +1,3 @@
-const boardTasks = document.querySelector(`.board__tasks`);
-
-/* Функция отрисовки контента */
-const render = (root, content) => {
-  root.innerHTML = content;
-};
-
 /* Функция отрисовки карточки */
 export default (count) => {
   let content = ``;
@@ -134,12 +127,10 @@ export default (count) => {
           </article>`);
 
   let i = 0;
-
   while (i < count) {
     content += cardTemplate();
     i++;
   }
 
-  /* Вывод фильтров на станицу */
-  render(boardTasks, content);
+  return content;
 };

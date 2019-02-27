@@ -1,9 +1,9 @@
 /* Функция отрисовки карточки */
-export default (count, cardData) => {
+export default (count) => {
   let content = ``;
 
   /* Шаблон карточки */
-  const cardTemplate = (data) => (`<article class="card card--pink card--repeat">
+  const cardTemplate = () => (`<article class="card card--pink card--repeat">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">
@@ -24,7 +24,7 @@ export default (count, cardData) => {
                 </div>
                 <div class="card__textarea-wrap">
                   <label>
-                    <textarea class="card__text" placeholder="Start typing your text here..." name="text">${data.title}</textarea>
+                    <textarea class="card__text" placeholder="Start typing your text here..." name="text">It is example of repeating task. It marks by wave.</textarea>
                   </label>
                 </div>
                 <div class="card__settings">
@@ -65,17 +65,33 @@ export default (count, cardData) => {
                     </div>
                     <div class="card__hashtag">
                       <div class="card__hashtag-list">
-                        ${[...data.tags].map((it) => `
-                          <span class="card__hashtag-inner">
-                            <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
-                            <button type="button" class="card__hashtag-name">
-                              #${it}
-                            </button>
-                            <button type="button" class="card__hashtag-delete">
-                              delete
-                            </button>
-                          </span>
-                          `).join(``)}
+                        <span class="card__hashtag-inner">
+                          <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
+                          <button type="button" class="card__hashtag-name">
+                            #repeat
+                          </button>
+                          <button type="button" class="card__hashtag-delete">
+                            delete
+                          </button>
+                        </span>
+                        <span class="card__hashtag-inner">
+                          <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
+                          <button type="button" class="card__hashtag-name">
+                            #cinema
+                          </button>
+                          <button type="button" class="card__hashtag-delete">
+                            delete
+                          </button>
+                        </span>
+                        <span class="card__hashtag-inner">
+                          <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
+                          <button type="button" class="card__hashtag-name">
+                            #entertaiment
+                          </button>
+                          <button type="button" class="card__hashtag-delete">
+                            delete
+                          </button>
+                        </span>
                       </div>
                       <label>
                         <input type="text" class="card__hashtag-input" name="hashtag-input" placeholder="Type new hashtag here">
@@ -112,10 +128,9 @@ export default (count, cardData) => {
 
   let i = 0;
   while (i < count) {
-    content += cardTemplate(cardData());
+    content += cardTemplate();
     i++;
   }
 
   return content;
 };
-

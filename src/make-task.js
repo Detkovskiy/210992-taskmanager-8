@@ -1,5 +1,5 @@
 /* Функция отрисовки карточки */
-export default (count) => {
+export default (count, cardData) => {
   let content = ``;
 
   /* Шаблон карточки */
@@ -128,7 +128,7 @@ export default (count) => {
 
   let i = 0;
   while (i < count) {
-    content += cardTemplate();
+    content += cardTemplate(cardData());
     i++;
   }
 

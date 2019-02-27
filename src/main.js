@@ -41,7 +41,7 @@ const FILTER_NAME = [
 
 /* Вывод фильтров на станицу */
 render(filtersSection, renderFilter(FILTER_NAME));
-render(boardTasks, renderCard(7, card()));
+render(boardTasks, renderCard(7, card));
 
 /* Обработчик выбора фильтра */
-filtersSection.addEventListener(`change`, () => render(boardTasks, renderCard(getRandomFromInterval(3, 10), card())));
+filtersSection.addEventListener(`change`, () => render(boardTasks, renderCard(getRandomFromInterval(3, 10), card)));

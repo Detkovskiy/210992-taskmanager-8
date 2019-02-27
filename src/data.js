@@ -5,7 +5,7 @@ export default () => ({
     `Изучить теорию`,
     `Сделать домашку`,
     `Пройти интенсив на соточку`,
-  ][getRandomTitle(0, 2)],
+  ][getRandomTitle(0, 3)],
   dueDate: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
   tags: new Set([
     `homework`,

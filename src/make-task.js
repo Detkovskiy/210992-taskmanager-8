@@ -112,7 +112,7 @@ export default (count, cardData) => {
 
   let i = 0;
   while (i < count) {
-    content += cardTemplate(cardData);
+    content += cardTemplate(cardData());
     i++;
   }
 

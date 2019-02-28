@@ -1,4 +1,4 @@
-export default (filters) => {
+export const renderFilter = (filters) => {
   let content = ``;
 
   /* Шаблон фильтра */

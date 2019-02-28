@@ -1,6 +1,6 @@
 import getRandomNumber from '../src/utils.js';
 
-export default () => ({
+export const card = () => ({
   title: [
     `Изучить теорию`,
     `Сделать домашку`,

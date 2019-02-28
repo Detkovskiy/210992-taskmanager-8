@@ -2,23 +2,40 @@
 export const renderCard = (count, cardData) => {
   let content = ``;
 
-  const checkDeadline = (timestamp) => {
-    const now = new Date();
-    return (timestamp > now) ? `` : `card--deadline`;
-  };
+  const generateData = (data) => {
 
-  const timeConverter = (timestamp) => {
-    const date = new Date(timestamp);
-    const months = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
-    const noon = (date.getHours() >= 12) ? `AM` : `PM`;
-    const cardDate = date.getDate() + ` ` + months[date.getMonth()];
-    const cardTime = date.getHours() + `:` + date.getMinutes() + ` ` + noon;
+    const checkDeadline = (timestamp) => {
+      const now = new Date();
+      return (timestamp.dueDate > now) ? `` : `card--deadline`;
+    };
 
-    return [cardDate, cardTime];
+    const timeConverter = (timestamp) => {
+      const date = new Date(timestamp.dueDate);
+      const months = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
+      const noon = (date.getHours() >= 12) ? `AM` : `PM`;
+      const cardDate = date.getDate() + ` ` + months[date.getMonth()];
+      const cardTime = date.getHours() + `:` + date.getMinutes() + ` ` + noon;
+
+      return [cardDate, cardTime];
+    };
+
+    const checkRepeat = (repeat) => {
+      let repeatDay = [];
+      for (let item in repeat.repeatingDays) {
+        if (repeat.repeatingDays.hasOwnProperty(item)) {
+          if (repeat.repeatingDays[item]) {
+            repeatDay.push(item);
+          }
+        }
+      }
+      return repeatDay;
+    };
+
+    return [checkDeadline(data), timeConverter(data), checkRepeat(data)];
   };
 
   /* Шаблон карточки */
-  const cardTemplate = (data) => (`<article class="card card--${data.color} card--repeat ${checkDeadline(data.dueDate)}" style="">
+  const cardTemplate = (data, newData) => (`<article class="card card--${data.color} ${newData[0]} ${(newData[2].length === 0) ? `` : `card--repeat`}" style="">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">
@@ -54,10 +71,10 @@ export const renderCard = (count, cardData) => {
 
                       <fieldset class="card__date-deadline">
                         <label class="card__input-deadline-wrap">
-                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${timeConverter(data.dueDate)[0]}">
+                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${newData[1][0]}">
                         </label>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${timeConverter(data.dueDate)[1]}">
+                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${newData[1][1]}">
                         </label>
                       </fieldset>
 
@@ -140,11 +157,9 @@ export const renderCard = (count, cardData) => {
 
   let i = 0;
   while (i < count) {
-    content += cardTemplate(cardData());
+    content += cardTemplate(cardData(), generateData(cardData()));
     i++;
   }
 
   return content;
 };
-
-

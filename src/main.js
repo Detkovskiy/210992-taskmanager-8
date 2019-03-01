@@ -1,7 +1,7 @@
 import {renderFilter} from '../src/make-filter.js';
 import {renderCard} from '../src/make-task.js';
 import {card} from '../src/data.js';
-import getRandomFromInterval, {render} from '../src/utils';
+import {getRandomFromInterval, render} from '../src/utils';
 
 const filtersSection = document.querySelector(`.main__filter`);
 const boardTasks = document.querySelector(`.board__tasks`);

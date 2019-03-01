@@ -1,7 +1,8 @@
-export default (min, max) => Math.floor(Math.random() * (max - min) + min);
+const getRandomFromInterval = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
 /* Функция отрисовки контента */
-export const render = (root, content) => {
+const render = (root, content) => {
   root.innerHTML = content;
 };
 
+export {getRandomFromInterval, render};

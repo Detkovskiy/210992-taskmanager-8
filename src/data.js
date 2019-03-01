@@ -16,13 +16,7 @@ export const card = () => ({
   ]),
   picture: `//picsum.photos/100/100?r=${Math.random()}`,
   repeatingDays: {
-    'mo': true,
-    'tu': false,
-    'we': true,
-    'th': false,
-    'fr': false,
-    'sa': true,
-    'su': false,
+    'mo': getRandomNumber(0, 2)
   },
   color: [
     `black`,

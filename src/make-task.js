@@ -11,15 +11,19 @@ export const renderCard = (count, cardData) => {
 
     const timeConverter = (timestamp) => {
       const date = new Date(timestamp.dueDate);
-      const months = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
       const noon = (date.getHours() >= 12) ? `AM` : `PM`;
-      const cardDate = date.getDate() + ` ` + months[date.getMonth()];
-      const cardTime = date.getHours() + `:` + date.getMinutes() + ` ` + noon;
 
-      return [cardDate, cardTime];
+      return date.getHours() + `:` + date.getMinutes() + ` ` + noon;
     };
 
-    const checkRepeat = (repeat) => {
+    const dataConverter = (timestamp) => {
+      const date = new Date(timestamp.dueDate);
+      const months = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
+
+      return date.getDate() + ` ` + months[date.getMonth()];
+    };
+
+    const getRepeatDay = (repeat) => {
       let repeatDay = [];
       for (let item in repeat.repeatingDays) {
         if (repeat.repeatingDays.hasOwnProperty(item)) {
@@ -31,11 +35,26 @@ export const renderCard = (count, cardData) => {
       return repeatDay;
     };
 
-    return [checkDeadline(data), timeConverter(data), checkRepeat(data)];
+    const getTags = (setTags) => {
+      const arrTags = Array.from(setTags.tags);
+
+      return ((arrTags.length > 3) ? arrTags.slice(0, 3) : arrTags);
+    };
+
+    return {
+      title: data.title,
+      cardColor: data.color,
+      picture: data.picture,
+      checkDeadline: checkDeadline(data),
+      cardDate: dataConverter(data),
+      cardTime: timeConverter(data),
+      repeatDay: getRepeatDay(data),
+      tags: getTags(data)
+    };
   };
 
   /* Шаблон карточки */
-  const cardTemplate = (data, newData) => (`<article class="card card--${data.color} ${newData[0]} ${(newData[2].length === 0) ? `` : `card--repeat`}" style="">
+  const cardTemplate = (data) => (`<article class="card card--${data.cardColor} ${data.checkDeadline} ${data.repeatDay.length ? `card--repeat` : ``}" style="">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">
@@ -71,10 +90,10 @@ export const renderCard = (count, cardData) => {
 
                       <fieldset class="card__date-deadline">
                         <label class="card__input-deadline-wrap">
-                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${newData[1][0]}">
+                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${data.cardDate}">
                         </label>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${newData[1][1]}">
+                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${data.cardTime}">
                         </label>
                       </fieldset>
 
@@ -104,19 +123,16 @@ export const renderCard = (count, cardData) => {
 
                     <div class="card__hashtag">
                       <div class="card__hashtag-list">
-                      
-                        ${[...data.tags].map((it) => `
-                          <span class="card__hashtag-inner">
-                            <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
-                            <button type="button" class="card__hashtag-name">
-                              #${it}
-                            </button>
-                            <button type="button" class="card__hashtag-delete">
-                              delete
-                            </button>
-                          </span>
-                          `).join(``)}
-
+                      ${data.tags.map((it) => `
+                        <span class="card__hashtag-inner">
+                          <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
+                          <button type="button" class="card__hashtag-name">
+                            #${it}
+                          </button>
+                          <button type="button" class="card__hashtag-delete">
+                            delete
+                          </button>
+                        </span>`).join(``)}
                       </div>
 
                       <label>
@@ -157,7 +173,7 @@ export const renderCard = (count, cardData) => {
 
   let i = 0;
   while (i < count) {
-    content += cardTemplate(cardData(), generateData(cardData()));
+    content += cardTemplate(generateData(cardData()));
     i++;
   }
 

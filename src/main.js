@@ -1,5 +1,5 @@
 import {renderFilter} from '../src/make-filter.js';
-import {renderCard} from '../src/make-task.js';
+import {getRenderCard} from '../src/make-task.js';
 import {card} from '../src/data.js';
 import {getRandomFromInterval, render} from '../src/utils';
 
@@ -41,8 +41,8 @@ const FILTER_NAME = [
 
 /* Вывод фильтров на станицу */
 render(filtersSection, renderFilter(FILTER_NAME));
-render(boardTasks, renderCard(7, card));
+render(boardTasks, getRenderCard(7, card));
 
 /* Обработчик выбора фильтра */
-filtersSection.addEventListener(`change`, () => render(boardTasks, renderCard(getRandomFromInterval(3, 10), card)));
+filtersSection.addEventListener(`change`, () => render(boardTasks, getRenderCard(getRandomFromInterval(3, 10), card)));
 

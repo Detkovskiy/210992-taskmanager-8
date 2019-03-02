@@ -1,4 +1,4 @@
-import {getRandomFromInterval} from '../src/utils.js';
+import {getRandomFromInterval, getRandomDate} from '../src/utils.js';
 
 export const card = () => ({
   title: [
@@ -6,7 +6,7 @@ export const card = () => ({
     `Сделать домашку`,
     `Пройти интенсив на соточку`,
   ][getRandomFromInterval(0, 3)],
-  dueDate: Date.now() + 1 + Math.floor(((Math.random() > 0.5) ? 1 : -1) * (Math.floor(Math.random() * 7))) * 24 * 60 * 60 * 1000,
+  dueDate: getRandomDate(),
   tags: new Set([
     `homework`,
     `theory`,

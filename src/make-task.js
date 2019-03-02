@@ -1,22 +1,22 @@
 /* Функция отрисовки карточки */
-export const renderCard = (count, cardData) => {
+export const getRenderCard = (count, cardData) => {
   let content = ``;
 
-  const generateData = (data) => {
+  const getDataCard = (data) => {
 
     const checkDeadline = (timestamp) => {
       const now = new Date();
       return (timestamp.dueDate > now) ? `` : `card--deadline`;
     };
 
-    const timeConverter = (timestamp) => {
+    const getTimeDeadline = (timestamp) => {
       const date = new Date(timestamp.dueDate);
       const noon = (date.getHours() >= 12) ? `AM` : `PM`;
 
       return date.getHours() + `:` + date.getMinutes() + ` ` + noon;
     };
 
-    const dataConverter = (timestamp) => {
+    const getDateDeadline = (timestamp) => {
       const date = new Date(timestamp.dueDate);
       const months = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
 
@@ -46,8 +46,8 @@ export const renderCard = (count, cardData) => {
       cardColor: data.color,
       picture: data.picture,
       checkDeadline: checkDeadline(data),
-      cardDate: dataConverter(data),
-      cardTime: timeConverter(data),
+      dateDeadline: getDateDeadline(data),
+      timeDeadline: getTimeDeadline(data),
       repeatDay: getRepeatDay(data),
       tags: getTags(data)
     };
@@ -90,10 +90,10 @@ export const renderCard = (count, cardData) => {
 
                       <fieldset class="card__date-deadline">
                         <label class="card__input-deadline-wrap">
-                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${data.cardDate}">
+                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${data.dateDeadline}">
                         </label>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${data.cardTime}">
+                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${data.timeDeadline}">
                         </label>
                       </fieldset>
 
@@ -173,7 +173,7 @@ export const renderCard = (count, cardData) => {
 
   let i = 0;
   while (i < count) {
-    content += cardTemplate(generateData(cardData()));
+    content += cardTemplate(getDataCard(cardData()));
     i++;
   }
 

@@ -1,5 +1,5 @@
 /* Функция отрисовки карточки */
-export const getRenderCard = (count, cardData) => {
+export const getRenderCard = (count, getCard) => {
   let content = ``;
 
   const getDataCard = (data) => {
@@ -35,12 +35,6 @@ export const getRenderCard = (count, cardData) => {
       return repeatDay;
     };
 
-    const getTags = (setTags) => {
-      const arrTags = Array.from(setTags.tags);
-
-      return ((arrTags.length > 3) ? arrTags.slice(0, 3) : arrTags);
-    };
-
     return {
       title: data.title,
       cardColor: data.color,
@@ -49,7 +43,7 @@ export const getRenderCard = (count, cardData) => {
       dateDeadline: getDateDeadline(data),
       timeDeadline: getTimeDeadline(data),
       repeatDay: getRepeatDay(data),
-      tags: getTags(data)
+      tags: data.tags
     };
   };
 
@@ -123,7 +117,7 @@ export const getRenderCard = (count, cardData) => {
 
                     <div class="card__hashtag">
                       <div class="card__hashtag-list">
-                      ${data.tags.map((it) => `
+                      ${[...data.tags].map((it) => `
                         <span class="card__hashtag-inner">
                           <input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input">
                           <button type="button" class="card__hashtag-name">
@@ -173,7 +167,7 @@ export const getRenderCard = (count, cardData) => {
 
   let i = 0;
   while (i < count) {
-    content += cardTemplate(getDataCard(cardData()));
+    content += cardTemplate(getDataCard(getCard()));
     i++;
   }
 

@@ -13,9 +13,15 @@ const getRandomTags = (count, arr) => {
   return arrTags;
 };
 
+const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+  return newElement.firstChild;
+};
+
 /* Функция отрисовки контента */
 const render = (root, content) => {
   root.innerHTML = content;
 };
 
-export {getRandomFromInterval, getRandomDate, getRandomTags, render};
+export {getRandomFromInterval, getRandomDate, getRandomTags, createElement, render};

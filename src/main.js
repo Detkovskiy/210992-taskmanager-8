@@ -44,8 +44,9 @@ const FILTER_NAME = [
 /* Вывод фильтров на станицу */
 render(filtersSection, renderFilter(FILTER_NAME));
 
-const cardTask = new Card(getCard());
-const editCardTask = new CardEdit(getCard());
+const dataForCard = getCard();
+const cardTask = new Card(dataForCard);
+const editCardTask = new CardEdit(dataForCard);
 
 boarCardTasks.appendChild(cardTask.render());
 

@@ -1,4 +1,4 @@
-import {createElement} from '../src/utils';
+import {createElement, getDateDeadline, getTimeDeadline} from '../src/utils';
 
 export class Card {
   constructor(data) {
@@ -19,24 +19,11 @@ export class Card {
 
   _checkDeadline() {
     const now = new Date();
-    return (this._dueDate > now) ? `` : `card--deadline`;
-  }
-
-  _getTimeDeadline() {
-    const date = new Date(this._dueDate);
-    const noon = (date.getHours() >= 12) ? `AM` : `PM`;
-    return date.getHours() + `:` + date.getMinutes() + ` ` + noon;
-  }
-
-  _getDateDeadline() {
-    const date = new Date(this._dueDate);
-    const months = [`January`, `February`, `March`, `April`, `May`, `June`, `July`, `August`, `September`, `October`, `November`, `December`];
-
-    return date.getDate() + ` ` + months[date.getMonth()];
+    return this._dueDate < now;
   }
 
   get template() {
-    return `<article class="card card--${this._color} ${this._checkDeadline()} ${this._isRepeated() ? `card--repeat` : ``}" style="">
+    return `<article class="card card--${this._color} ${this._checkDeadline() ? `card--deadline` : ``} ${this._isRepeated() ? `card--repeat` : ``}" style="">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">
@@ -68,10 +55,10 @@ export class Card {
                     <div class="card__dates">
                       <fieldset class="card__date-deadline">
                         <label class="card__input-deadline-wrap">
-                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${this._getDateDeadline()}">
+                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${getDateDeadline(this._dueDate)}">
                         </label>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${this._getTimeDeadline()}">
+                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${getTimeDeadline(this._dueDate)}">
                         </label>
                       </fieldset>
                     </div>

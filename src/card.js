@@ -109,7 +109,7 @@ export class Card {
   }
 
   unbind() {
-    this._element.removeEventListener(`click`, this._onEditButtonClick.bind(this));
+    this._element.removeEventListener(`click`, this._onEditButtonClick);
   }
 
   render() {

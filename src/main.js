@@ -1,5 +1,4 @@
 import {render} from '../src/utils';
-
 import {renderFilter} from '../src/make-filter.js';
 import {getCard} from '../src/data.js';
 import {Card} from "./card";
@@ -41,24 +40,35 @@ const FILTER_NAME = [
   }
 ];
 
-/* Вывод фильтров на станицу */
 render(filtersSection, renderFilter(FILTER_NAME));
 
-const dataForCard = getCard();
-const cardTask = new Card(dataForCard);
-const editCardTask = new CardEdit(dataForCard);
+const getMoreCard = (count) => {
+  let i = 0;
+  const fragment = document.createDocumentFragment();
 
-boarCardTasks.appendChild(cardTask.render());
+  while (count > i) {
+    const getDataForCard = getCard();
+    const cardTask = new Card(getDataForCard);
+    const editCardTask = new CardEdit(getDataForCard);
 
-cardTask.onEdit = () => {
-  editCardTask.render();
-  boarCardTasks.replaceChild(editCardTask.element, cardTask.element);
-  cardTask.unRender();
+    cardTask.onEdit = () => {
+      editCardTask.render();
+      boarCardTasks.replaceChild(editCardTask.element, cardTask.element);
+      cardTask.unRender();
+    };
+
+    editCardTask.onSubmit = () => {
+      cardTask.render();
+      boarCardTasks.replaceChild(cardTask.element, editCardTask.element);
+      editCardTask.unRender();
+    };
+
+    fragment.appendChild(cardTask.render());
+    i++;
+  }
+
+  boarCardTasks.appendChild(fragment);
+
 };
 
-editCardTask.onSubmit = () => {
-  cardTask.render();
-  boarCardTasks.replaceChild(cardTask.element, editCardTask.element);
-  editCardTask.unRender();
-};
-
+getMoreCard(20);

@@ -34,14 +34,14 @@ const getDateDeadline = (timestamp) => {
 };
 
 const repeatingDays = (data) => {
-  let rep = ``;
+  let inputRepeatingDays = ``;
   for (let key in data) {
     if (data.hasOwnProperty(key)) {
-      rep += `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${key}-4" name="repeat" value="${key}" ${data[key] ? `checked` : ``}>
+      inputRepeatingDays += `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${key}-4" name="repeat" value="${key}" ${data[key] ? `checked` : ``}>
         <label class="card__repeat-day" for="repeat-${key}-4">${key}</label>`;
     }
   }
-  return rep;
+  return inputRepeatingDays;
 };
 
 /* Функция отрисовки контента */

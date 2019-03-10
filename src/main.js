@@ -1,8 +1,8 @@
-import {render} from '../src/utils';
-import {renderFilter} from '../src/make-filter.js';
-import {getCard} from '../src/data.js';
-import {Card} from "./card";
-import {CardEdit} from "./cardEdit";
+import {render} from '../src/utils.js';
+import {renderFilter} from '../src/make-filter';
+import {getCard} from '../src/data';
+import {Card} from "../src/card";
+import {CardEdit} from "../src/cardEdit";
 
 const filtersSection = document.querySelector(`.main__filter`);
 const boarCardTasks = document.querySelector(`.board__tasks`);

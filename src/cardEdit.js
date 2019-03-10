@@ -1,7 +1,9 @@
-import {createElement, getDateDeadline, getTimeDeadline} from '../src/utils';
+import {getDateDeadline, getTimeDeadline} from '../src/utils';
+import {Component} from '../src/component';
 
-export class CardEdit {
+export class CardEdit extends Component {
   constructor(data) {
+    super();
     this._title = data.title;
     this._dueDate = data.dueDate;
     this._tags = data.tags;
@@ -9,8 +11,8 @@ export class CardEdit {
     this._repeatingDays = data.repeatingDays;
     this._color = data.color;
 
-    this._element = null;
     this._onSubmit = null;
+    this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
   }
 
   _isRepeated() {
@@ -148,26 +150,11 @@ export class CardEdit {
     this._onSubmit = fn;
   }
 
-  get element() {
-    return this._element;
-  }
-
-  unRender() {
-    this.unbind();
-    this._element = null;
-  }
-
   bind() {
-    this._element.querySelector(`.card__form`).addEventListener(`submit`, this._onSubmitButtonClick.bind(this));
+    this._element.querySelector(`.card__form`).addEventListener(`submit`, this._onSubmitButtonClick);
   }
 
   unbind() {
     this._element.removeEventListener(`submit`, this._onSubmitButtonClick);
-  }
-
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-    return this._element;
   }
 }

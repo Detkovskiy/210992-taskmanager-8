@@ -1,7 +1,9 @@
-import {createElement, getDateDeadline, getTimeDeadline} from '../src/utils';
+import {getDateDeadline, getTimeDeadline} from '../src/utils';
+import {Component} from '../src/component';
 
-export class Card {
+export class Card extends Component {
   constructor(data) {
+    super();
     this._title = data.title;
     this._dueDate = data.dueDate;
     this._tags = data.tags;
@@ -9,8 +11,8 @@ export class Card {
     this._repeatingDays = data.repeatingDays;
     this._color = data.color;
 
-    this._element = null;
     this._onEdit = null;
+    this._onEditButtonClick = this._onEditButtonClick.bind(this);
   }
 
   _isRepeated() {
@@ -96,31 +98,16 @@ export class Card {
     }
   }
 
-  get element() {
-    return this._element;
-  }
-
   set onEdit(fn) {
     this._onEdit = fn;
   }
 
   bind() {
-    this._element.querySelector(`.card__btn--edit`).addEventListener(`click`, this._onEditButtonClick.bind(this));
+    this._element.querySelector(`.card__btn--edit`).addEventListener(`click`, this._onEditButtonClick);
   }
 
   unbind() {
     this._element.removeEventListener(`click`, this._onEditButtonClick);
-  }
-
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-    return this._element;
-  }
-
-  unRender() {
-    this.unbind();
-    this._element = null;
   }
 }
 

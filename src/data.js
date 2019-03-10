@@ -1,4 +1,4 @@
-import {getRandomFromInterval, getRandomDate, getRandomTags} from '../src/utils.js';
+import {getRandomFromInterval, getRandomDate, getRandomTags} from '../src/utils';
 
 export const getCard = () => ({
   title: [

@@ -51,6 +51,7 @@ const getMoreCard = (count) => {
     const cardTask = new Card(getDataForCard);
     const editCardTask = new CardEdit(getDataForCard);
 
+
     cardTask.onEdit = () => {
       editCardTask.render();
       boarCardTasks.replaceChild(editCardTask.element, cardTask.element);
@@ -69,6 +70,9 @@ const getMoreCard = (count) => {
 
   boarCardTasks.appendChild(fragment);
 
+
 };
 
 getMoreCard(20);
+const ss = new Card(getCard());
+ss.repiat();

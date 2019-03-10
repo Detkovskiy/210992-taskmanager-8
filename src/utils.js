@@ -33,9 +33,20 @@ const getDateDeadline = (timestamp) => {
   return date.getDate() + ` ` + months[date.getMonth()];
 };
 
+const repeatingDays = (data) => {
+  let rep = ``;
+  for (let key in data) {
+    if (data.hasOwnProperty(key)) {
+      rep += `<input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${key}-4" name="repeat" value="${key}" ${data[key] ? `checked` : ``}>
+        <label class="card__repeat-day" for="repeat-${key}-4">${key}</label>`;
+    }
+  }
+  return rep;
+};
+
 /* Функция отрисовки контента */
 const render = (root, content) => {
   root.innerHTML = content;
 };
 
-export {getRandomFromInterval, getRandomDate, getRandomTags, createElement, getTimeDeadline, getDateDeadline, render};
+export {getRandomFromInterval, getRandomDate, getRandomTags, createElement, getTimeDeadline, getDateDeadline, repeatingDays, render};

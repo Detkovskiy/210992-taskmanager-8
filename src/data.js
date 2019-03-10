@@ -1,6 +1,6 @@
 import {getRandomFromInterval, getRandomDate, getRandomTags} from '../src/utils';
 
-export const getCard = () => ({
+export const getCard = (i) => ({
   title: [
     `Изучить теорию`,
     `Сделать домашку`,
@@ -32,5 +32,6 @@ export const getCard = () => ({
     `pink`
   ][getRandomFromInterval(0, 5)],
   isFavorite: false,
-  isDone: true
+  isDone: true,
+  cardNumber: i
 });

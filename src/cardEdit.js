@@ -1,4 +1,4 @@
-import {getDateDeadline, getTimeDeadline, repeatingDays} from '../src/utils';
+import {getDateDeadline, getTimeDeadline} from '../src/utils';
 import {Component} from '../src/component';
 
 export class CardEdit extends Component {
@@ -10,6 +10,7 @@ export class CardEdit extends Component {
     this._picture = data.picture;
     this._repeatingDays = data.repeatingDays;
     this._color = data.color;
+    this._cardNumber = data.cardNumber;
 
     this._onSubmit = null;
     this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
@@ -64,12 +65,14 @@ export class CardEdit extends Component {
                       </fieldset>
 
                       <button class="card__repeat-toggle" type="button">
-                        repeat:<span class="card__repeat-status">yes</span>
+                        repeat:<span class="card__repeat-status">${this._isRepeated() ? `yes` : `no`}</span>
                       </button>
 
                       <fieldset class="card__repeat-days">
                         <div class="card__repeat-days-inner">
-                        ${repeatingDays(this._repeatingDays)}
+                          ${Object.entries(this._repeatingDays).map(([day, isChecked]) => ` 
+                            <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${day}-${this._cardNumber}" name="repeat" value="${day}" ${isChecked ? `checked` : ``}>
+                            <label class="card__repeat-day" for="repeat-${day}-${this._cardNumber}">${day}</label>`).join(``)}
                         </div>
                       </fieldset>
                     </div>
@@ -123,7 +126,6 @@ export class CardEdit extends Component {
               </div>
             </form>
           </article>`;
-
   }
 
   _onSubmitButtonClick(evt) {

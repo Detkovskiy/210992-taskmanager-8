@@ -47,7 +47,7 @@ const getMoreCard = (count) => {
   const fragment = document.createDocumentFragment();
 
   while (count > i) {
-    const getDataForCard = getCard();
+    const getDataForCard = getCard(i);
     const cardTask = new Card(getDataForCard);
     const editCardTask = new CardEdit(getDataForCard);
 
@@ -74,5 +74,3 @@ const getMoreCard = (count) => {
 };
 
 getMoreCard(20);
-const ss = new Card(getCard());
-ss.repiat();

@@ -1,16 +1,19 @@
-import {createElement, getDateDeadline, getTimeDeadline} from '../src/utils';
+import {getDateDeadline, getTimeDeadline} from '../src/utils';
+import {Component} from '../src/component';
 
-export class CardEdit {
+export class CardEdit extends Component {
   constructor(data) {
+    super();
     this._title = data.title;
     this._dueDate = data.dueDate;
     this._tags = data.tags;
     this._picture = data.picture;
     this._repeatingDays = data.repeatingDays;
     this._color = data.color;
+    this._cardNumber = data.cardNumber;
 
-    this._element = null;
     this._onSubmit = null;
+    this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
   }
 
   _isRepeated() {
@@ -62,25 +65,14 @@ export class CardEdit {
                       </fieldset>
 
                       <button class="card__repeat-toggle" type="button">
-                        repeat:<span class="card__repeat-status">yes</span>
+                        repeat:<span class="card__repeat-status">${this._isRepeated() ? `yes` : `no`}</span>
                       </button>
 
                       <fieldset class="card__repeat-days">
                         <div class="card__repeat-days-inner">
-                          <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-mo-4" name="repeat" value="mo">
-                          <label class="card__repeat-day" for="repeat-mo-4">mo</label>
-                          <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-tu-4" name="repeat" value="tu" checked="">
-                          <label class="card__repeat-day" for="repeat-tu-4">tu</label>
-                          <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-we-4" name="repeat" value="we">
-                          <label class="card__repeat-day" for="repeat-we-4">we</label>
-                          <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-th-4" name="repeat" value="th">
-                          <label class="card__repeat-day" for="repeat-th-4">th</label>
-                          <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-fr-4" name="repeat" value="fr" checked="">
-                          <label class="card__repeat-day" for="repeat-fr-4">fr</label>
-                          <input class="visually-hidden card__repeat-day-input" type="checkbox" name="repeat" value="sa" id="repeat-sa-4">
-                          <label class="card__repeat-day" for="repeat-sa-4">sa</label>
-                          <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-su-4" name="repeat" value="su" checked="">
-                          <label class="card__repeat-day" for="repeat-su-4">su</label>
+                          ${Object.entries(this._repeatingDays).map(([day, isChecked]) => ` 
+                            <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${day}-${this._cardNumber}" name="repeat" value="${day}" ${isChecked ? `checked` : ``}>
+                            <label class="card__repeat-day" for="repeat-${day}-${this._cardNumber}">${day}</label>`).join(``)}
                         </div>
                       </fieldset>
                     </div>
@@ -134,7 +126,6 @@ export class CardEdit {
               </div>
             </form>
           </article>`;
-
   }
 
   _onSubmitButtonClick(evt) {
@@ -148,26 +139,11 @@ export class CardEdit {
     this._onSubmit = fn;
   }
 
-  get element() {
-    return this._element;
-  }
-
-  unRender() {
-    this.unbind();
-    this._element = null;
-  }
-
   bind() {
-    this._element.querySelector(`.card__form`).addEventListener(`submit`, this._onSubmitButtonClick.bind(this));
+    this._element.querySelector(`.card__form`).addEventListener(`submit`, this._onSubmitButtonClick);
   }
 
   unbind() {
     this._element.removeEventListener(`submit`, this._onSubmitButtonClick);
-  }
-
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-    return this._element;
   }
 }

@@ -1,8 +1,8 @@
-import {render} from '../src/utils';
-import {renderFilter} from '../src/make-filter.js';
-import {getCard} from '../src/data.js';
-import {Card} from "./card";
-import {CardEdit} from "./cardEdit";
+import {render} from '../src/utils.js';
+import {renderFilter} from '../src/make-filter';
+import {getCard} from '../src/data';
+import {Card} from "../src/card";
+import {CardEdit} from "../src/cardEdit";
 
 const filtersSection = document.querySelector(`.main__filter`);
 const boarCardTasks = document.querySelector(`.board__tasks`);
@@ -47,9 +47,10 @@ const getMoreCard = (count) => {
   const fragment = document.createDocumentFragment();
 
   while (count > i) {
-    const getDataForCard = getCard();
+    const getDataForCard = getCard(i);
     const cardTask = new Card(getDataForCard);
     const editCardTask = new CardEdit(getDataForCard);
+
 
     cardTask.onEdit = () => {
       editCardTask.render();
@@ -68,6 +69,7 @@ const getMoreCard = (count) => {
   }
 
   boarCardTasks.appendChild(fragment);
+
 
 };
 

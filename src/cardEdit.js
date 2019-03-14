@@ -131,12 +131,19 @@ export class CardEdit extends Component {
 
   static createMapper(target) {
     return {
-      hashtag: (value) => target.tags.add(value),
-      text: (value) => target.title = value,
-      color: (value) => target.color = value,
-      repeat: (value) => target.repeatingDays[value] = true,
-      date: (value) => target.dueDate[value],
-
+      hashtag: (value) => {
+        target.tags.add(value);
+      },
+      text: (value) => {
+        target.title = value;
+      },
+      color: (value) => {
+        target.color = value;
+      },
+      repeat: (value) => {
+        target.repeatingDays[value] = true;
+      },
+      date: (value) => target.dueDate[value]
     };
   }
 
@@ -161,7 +168,9 @@ export class CardEdit extends Component {
 
     for (const pair of formData.entries()) {
       const [property, value] = pair;
-      taskEditMapper[property] && taskEditMapper[property](value);
+      if (taskEditMapper[property]) {
+        taskEditMapper[property](value);
+      }
     }
 
     return entry;

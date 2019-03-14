@@ -24,13 +24,7 @@ export const getCard = (i) => ({
     'sa': false,
     'su': false
   },
-  color: [
-    `black`,
-    `yellow`,
-    `blue`,
-    `green`,
-    `pink`
-  ],
+  color: `black`,
   isFavorite: false,
   isDone: true,
   cardNumber: i

@@ -1,4 +1,4 @@
-import {getDateDeadline, getTimeDeadline} from '../src/utils';
+import {moment} from '../src/utils';
 import {Component} from '../src/component';
 import flatpickr from "flatpickr";
 
@@ -65,10 +65,10 @@ export class CardEdit extends Component {
 
                       <fieldset class="card__date-deadline" ${!this._state.isDate && `disabled`}>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${getDateDeadline(this._dueDate)}">
+                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${moment(this._dueDate).format(`DD MMMM`)}">
                         </label>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${getTimeDeadline(this._dueDate)}">
+                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${moment(this._dueDate).format(`hh:mm a`)}">
                         </label>
                       </fieldset>
 
@@ -144,16 +144,22 @@ export class CardEdit extends Component {
       repeat: (value) => {
         target.repeatingDays[value] = true;
       },
-      date: (value) => target.dueDate[value]
+      date: (value) => {
+        target.date = value;
+      },
+      time: (value) => {
+        target.time = value;
+      }
     };
   }
 
-  _processForm(formData) {
+  static processForm(formData) {
     const entry = {
       title: ``,
       color: ``,
       tags: new Set(),
-      dueDate: this._state.isDate === false ? null : new Date(),
+      date: ``,
+      time: ``,
       repeatingDays: {
         'mo': false,
         'tu': false,
@@ -169,18 +175,29 @@ export class CardEdit extends Component {
 
     for (const pair of formData.entries()) {
       const [property, value] = pair;
+
       if (taskEditMapper[property]) {
         taskEditMapper[property](value);
       }
     }
 
+    entry.dueDate = +moment(`${entry.date} ${entry.time}`, `DD MMMM hh:mm a`).format(`x`);
+
     return entry;
+  }
+
+  update(data) {
+    this._title = data.title;
+    this._tags = data.tags;
+    this._color = data.color;
+    this._repeatingDays = data.repeatingDays;
+    this._dueDate = data.dueDate;
   }
 
   _onSubmitButtonClick(evt) {
     evt.preventDefault();
     const formData = new FormData(this._element.querySelector(`.card__form`));
-    const newData = this._processForm(formData);
+    const newData = CardEdit.processForm(formData);
 
     if (typeof this._onSubmit === `function`) {
       this._onSubmit(newData);
@@ -231,13 +248,5 @@ export class CardEdit extends Component {
     this._element.removeEventListener(`submit`, this._onSubmitButtonClick);
     this._element.querySelector(`.card__date-deadline-toggle`).removeEventListener(`click`, this._onChangeDate);
     this._element.querySelector(`.card__repeat-toggle`).removeEventListener(`click`, this._onChangeRepeated);
-  }
-
-  update(data) {
-    this._title = data.title;
-    this._tags = data.tags;
-    this._color = data.color;
-    this._repeatingDays = data.repeatingDays;
-    this._dueDate = data.dueDate;
   }
 }

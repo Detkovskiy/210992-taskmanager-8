@@ -16,13 +16,13 @@ export const getCard = (i) => ({
   ])),
   picture: `//picsum.photos/100/100?r=${Math.random()}`,
   repeatingDays: {
-    'mo': getRandomFromInterval(0, 2),
-    'tu': getRandomFromInterval(0, 2),
-    'we': getRandomFromInterval(0, 2),
-    'th': getRandomFromInterval(0, 2),
-    'fr': getRandomFromInterval(0, 2),
-    'sa': getRandomFromInterval(0, 2),
-    'su': getRandomFromInterval(0, 2),
+    'mo': false,
+    'tu': false,
+    'we': false,
+    'th': false,
+    'fr': false,
+    'sa': false,
+    'su': false
   },
   color: [
     `black`,
@@ -30,7 +30,7 @@ export const getCard = (i) => ({
     `blue`,
     `green`,
     `pink`
-  ][getRandomFromInterval(0, 5)],
+  ],
   isFavorite: false,
   isDone: true,
   cardNumber: i

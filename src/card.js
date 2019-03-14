@@ -16,12 +16,16 @@ export class Card extends Component {
   }
 
   _isRepeated() {
-    return Object.values(this._repeatingDays).some((it) => it === 1);
+    return Object.values(this._repeatingDays).some((it) => it === true);
   }
 
   _checkDeadline() {
-    const now = new Date();
-    return this._dueDate < now;
+    if (this._dueDate === null) {
+      return false;
+    } else {
+      const now = new Date();
+      return this._dueDate < now;
+    }
   }
 
   get template() {
@@ -55,7 +59,7 @@ export class Card extends Component {
                 <div class="card__settings">
                   <div class="card__details">
                     <div class="card__dates">
-                      <fieldset class="card__date-deadline">
+                      <fieldset class="card__date-deadline"  ${this._dueDate === null ? `disabled` : ``}>
                         <label class="card__input-deadline-wrap">
                           <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${getDateDeadline(this._dueDate)}">
                         </label>
@@ -108,6 +112,13 @@ export class Card extends Component {
 
   unbind() {
     this._element.removeEventListener(`click`, this._onEditButtonClick);
+  }
+  update(data) {
+    this._title = data.title;
+    this._tags = data.tags;
+    this._color = data.color;
+    this._repeatingDays = data.repeatingDays;
+    this._dueDate = data.dueDate;
   }
 }
 

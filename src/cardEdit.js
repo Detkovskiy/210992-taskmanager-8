@@ -1,5 +1,6 @@
 import {getDateDeadline, getTimeDeadline} from '../src/utils';
 import {Component} from '../src/component';
+import flatpickr from "flatpickr";
 
 export class CardEdit extends Component {
   constructor(data) {
@@ -214,6 +215,16 @@ export class CardEdit extends Component {
     this._element.querySelector(`.card__form`).addEventListener(`submit`, this._onSubmitButtonClick);
     this._element.querySelector(`.card__date-deadline-toggle`).addEventListener(`click`, this._onChangeDate);
     this._element.querySelector(`.card__repeat-toggle`).addEventListener(`click`, this._onChangeRepeated);
+
+    if (this._state.isDate) {
+      flatpickr(`.card__date`, {
+        altInput: true, altFormat: `j F`, dateFormat: `j F`
+      });
+
+      flatpickr(`.card__time`, {
+        enableTime: true, noCalendar: true, altInput: true, altFormat: `h:i K`, dateFormat: `h:i K`
+      });
+    }
   }
 
   unbind() {

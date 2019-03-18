@@ -18,7 +18,7 @@ export class CardEdit extends Component {
     this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
 
 
-    this._state.isDate = true;
+    this._state.isDate = false;
     this._state.isRepeated = false;
 
     this._onChangeDate = this._onChangeDate.bind(this);
@@ -66,10 +66,10 @@ export class CardEdit extends Component {
 
                       <fieldset class="card__date-deadline" ${!this._state.isDate && `disabled`}>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${this._dueDate === `` ? moment(Date.now()).format(`DD MMMM`) : moment(this._dueDate).format(`DD MMMM`)}">
+                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${moment(this._dueDate).format(`DD MMMM`)}">
                         </label>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${this._dueDate === `` ? moment(Date.now()).format(`hh:mm a`) : moment(this._dueDate).format(`hh:mm a`)}">
+                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${moment(this._dueDate).format(`hh:mm a`)}">
                         </label>
                       </fieldset>
 
@@ -146,15 +146,15 @@ export class CardEdit extends Component {
         target.repeatingDays[value] = true;
       },
       date: (value) => {
-        target.dueDate = value;
+        target.date = value;
       },
       time: (value) => {
-        target.dueDate = +moment(`${target.dueDate} ${value}`, `DD MMMM hh:mm a`).format(`x`);
+        target.time = value;
       }
     };
   }
 
-  static processForm(formData) {
+  _processForm(formData) {
 
     const entry = {
       title: ``,
@@ -169,7 +169,8 @@ export class CardEdit extends Component {
         'sa': false,
         'su': false,
       },
-      dueDate: ``
+      date: ``,
+      time: ``
     };
 
     const taskEditMapper = CardEdit.createMapper(entry);
@@ -181,7 +182,13 @@ export class CardEdit extends Component {
         taskEditMapper[property](value);
       }
     }
-console.log(entry);
+
+    if (entry.date !== ``) {
+      entry.dueDate = +moment(`${entry.date} ${entry.time}`, `DD MMMM hh:mm a`).format(`x`);
+    } else {
+      entry.dueDate = this._dueDate;
+    }
+
     return entry;
   }
 
@@ -196,7 +203,7 @@ console.log(entry);
   _onSubmitButtonClick(evt) {
     evt.preventDefault();
     const formData = new FormData(this._element.querySelector(`.card__form`));
-    const newData = CardEdit.processForm(formData);
+    const newData = this._processForm(formData);
 
     if (typeof this._onSubmit === `function`) {
       this._onSubmit(newData);

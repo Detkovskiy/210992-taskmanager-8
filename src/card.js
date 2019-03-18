@@ -15,16 +15,12 @@ export class Card extends Component {
     this._onEditButtonClick = this._onEditButtonClick.bind(this);
   }
 
-  _isRepeated() {
-    return Object.values(this._repeatingDays).filter((it) => it).length;
-  }
-
   _checkDeadline() {
     return this._dueDate === null ? false : this._dueDate < new Date();
   }
 
   get template() {
-    return `<article class="card card--${this._color} ${this._checkDeadline() ? `card--deadline` : ``} ${this._isRepeated() ? `card--repeat` : ``}" style="">
+    return `<article class="card card--${this._color} ${this._checkDeadline() ? `card--deadline` : ``} ${this.isRepeated() ? `card--repeat` : ``}" style="">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">

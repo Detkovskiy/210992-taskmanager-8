@@ -25,12 +25,8 @@ export class CardEdit extends Component {
     this._onChangeRepeated = this._onChangeRepeated.bind(this);
   }
 
-  _isRepeated() {
-    return Object.values(this._repeatingDays).filter((it) => it).length;
-  }
-
   get template() {
-    return `<article class="card card--edit card--${this._color} ${this._isRepeated() ? `card--repeat` : ``}" style="">
+    return `<article class="card card--edit card--${this._color} ${this.isRepeated() ? `card--repeat` : ``}" style="">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">

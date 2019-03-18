@@ -1,4 +1,4 @@
-import {moment} from '../src/utils';
+import moment from '../node_modules/moment/moment.js';
 import {Component} from '../src/component';
 
 export class Card extends Component {
@@ -16,7 +16,7 @@ export class Card extends Component {
   }
 
   _isRepeated() {
-    return Object.values(this._repeatingDays).some((it) => it === true);
+    return Object.values(this._repeatingDays).filter((it) => it).length;
   }
 
   _checkDeadline() {
@@ -54,12 +54,12 @@ export class Card extends Component {
                 <div class="card__settings">
                   <div class="card__details">
                     <div class="card__dates">
-                      <fieldset class="card__date-deadline"  ${this._dueDate === null ? `disabled` : ``}>
+                      <fieldset class="card__date-deadline"  ${!this._dueDate && `disabled`}>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${moment(this._dueDate).format(`DD MMMM`)}">
+                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${this._dueDate && moment(this._dueDate).format(`DD MMMM`)}">
                         </label>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${moment(this._dueDate).format(`hh:mm a`)}">
+                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${this._dueDate && moment(this._dueDate).format(`hh:mm a`)}">
                         </label>
                       </fieldset>
                     </div>

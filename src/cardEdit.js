@@ -1,4 +1,4 @@
-import {moment} from '../src/utils';
+import moment from '../node_modules/moment/moment.js';
 import {Component} from '../src/component';
 import flatpickr from "flatpickr";
 
@@ -17,7 +17,8 @@ export class CardEdit extends Component {
     this._onSubmit = null;
     this._onSubmitButtonClick = this._onSubmitButtonClick.bind(this);
 
-    this._state.isDate = false;
+
+    this._state.isDate = true;
     this._state.isRepeated = false;
 
     this._onChangeDate = this._onChangeDate.bind(this);
@@ -25,7 +26,7 @@ export class CardEdit extends Component {
   }
 
   _isRepeated() {
-    return Object.values(this._repeatingDays).some((it) => it === true);
+    return Object.values(this._repeatingDays).filter((it) => it).length;
   }
 
   get template() {
@@ -65,10 +66,10 @@ export class CardEdit extends Component {
 
                       <fieldset class="card__date-deadline" ${!this._state.isDate && `disabled`}>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${moment(this._dueDate).format(`DD MMMM`)}">
+                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${this._dueDate === `` ? moment(Date.now()).format(`DD MMMM`) : moment(this._dueDate).format(`DD MMMM`)}">
                         </label>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${moment(this._dueDate).format(`hh:mm a`)}">
+                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${this._dueDate === `` ? moment(Date.now()).format(`hh:mm a`) : moment(this._dueDate).format(`hh:mm a`)}">
                         </label>
                       </fieldset>
 
@@ -145,21 +146,20 @@ export class CardEdit extends Component {
         target.repeatingDays[value] = true;
       },
       date: (value) => {
-        target.date = value;
+        target.dueDate = value;
       },
       time: (value) => {
-        target.time = value;
+        target.dueDate = +moment(`${target.dueDate} ${value}`, `DD MMMM hh:mm a`).format(`x`);
       }
     };
   }
 
   static processForm(formData) {
+
     const entry = {
       title: ``,
       color: ``,
       tags: new Set(),
-      date: ``,
-      time: ``,
       repeatingDays: {
         'mo': false,
         'tu': false,
@@ -168,7 +168,8 @@ export class CardEdit extends Component {
         'fr': false,
         'sa': false,
         'su': false,
-      }
+      },
+      dueDate: ``
     };
 
     const taskEditMapper = CardEdit.createMapper(entry);
@@ -180,9 +181,7 @@ export class CardEdit extends Component {
         taskEditMapper[property](value);
       }
     }
-
-    entry.dueDate = +moment(`${entry.date} ${entry.time}`, `DD MMMM hh:mm a`).format(`x`);
-
+console.log(entry);
     return entry;
   }
 

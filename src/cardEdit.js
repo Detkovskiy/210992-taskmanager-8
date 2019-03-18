@@ -146,11 +146,14 @@ export class CardEdit extends Component {
       },
       time: (value) => {
         target.time = value;
+        if (value) {
+          target.dueDate = +moment(`${target.date} ${target.time}`, `DD MMMM hh:mm a`).format(`x`);
+        }
       }
     };
   }
 
-  _processForm(formData) {
+  static processForm(formData) {
 
     const entry = {
       title: ``,
@@ -179,12 +182,6 @@ export class CardEdit extends Component {
       }
     }
 
-    if (entry.date !== ``) {
-      entry.dueDate = +moment(`${entry.date} ${entry.time}`, `DD MMMM hh:mm a`).format(`x`);
-    } else {
-      entry.dueDate = this._dueDate;
-    }
-
     return entry;
   }
 
@@ -199,7 +196,7 @@ export class CardEdit extends Component {
   _onSubmitButtonClick(evt) {
     evt.preventDefault();
     const formData = new FormData(this._element.querySelector(`.card__form`));
-    const newData = this._processForm(formData);
+    const newData = CardEdit.processForm(formData);
 
     if (typeof this._onSubmit === `function`) {
       this._onSubmit(newData);

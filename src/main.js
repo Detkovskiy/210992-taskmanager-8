@@ -42,35 +42,28 @@ const FILTER_NAME = [
 
 render(filtersSection, renderFilter(FILTER_NAME));
 
-const getMoreCard = (count) => {
-  let i = 0;
-  const fragment = document.createDocumentFragment();
+const getDataForCard = getCard(1);
+const cardTask = new Card(getDataForCard);
+const editCardTask = new CardEdit(getDataForCard);
 
-  while (count > i) {
-    const getDataForCard = getCard(i);
-    const cardTask = new Card(getDataForCard);
-    const editCardTask = new CardEdit(getDataForCard);
-
-
-    cardTask.onEdit = () => {
-      editCardTask.render();
-      boarCardTasks.replaceChild(editCardTask.element, cardTask.element);
-      cardTask.unRender();
-    };
-
-    editCardTask.onSubmit = () => {
-      cardTask.render();
-      boarCardTasks.replaceChild(cardTask.element, editCardTask.element);
-      editCardTask.unRender();
-    };
-
-    fragment.appendChild(cardTask.render());
-    i++;
-  }
-
-  boarCardTasks.appendChild(fragment);
-
-
+cardTask.onEdit = () => {
+  editCardTask.render();
+  boarCardTasks.replaceChild(editCardTask.element, cardTask.element);
+  cardTask.unRender();
 };
 
-getMoreCard(20);
+editCardTask.onSubmit = (newObject) => {
+  getDataForCard.title = newObject.title;
+  getDataForCard.tags = newObject.tags;
+  getDataForCard.color = newObject.color;
+  getDataForCard.repeatingDays = newObject.repeatingDays;
+  getDataForCard.dueDate = newObject.dueDate;
+
+  cardTask.update(getDataForCard);
+  cardTask.render();
+  boarCardTasks.replaceChild(cardTask.element, editCardTask.element);
+  editCardTask.unRender();
+};
+
+boarCardTasks.appendChild(cardTask.render());
+

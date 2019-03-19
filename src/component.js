@@ -7,6 +7,7 @@ export class Component {
     }
 
     this._element = null;
+    this._repeatingDays = null;
     this._state = {};
   }
 
@@ -32,5 +33,11 @@ export class Component {
     this.unbind();
     this._element.remove();
     this._element = null;
+  }
+
+  update() {}
+
+  isRepeated() {
+    return Object.values(this._repeatingDays).filter((it) => it).length;
   }
 }

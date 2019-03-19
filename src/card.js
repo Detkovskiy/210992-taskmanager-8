@@ -1,4 +1,4 @@
-import {getDateDeadline, getTimeDeadline} from '../src/utils';
+import moment from '../node_modules/moment/moment.js';
 import {Component} from '../src/component';
 
 export class Card extends Component {
@@ -15,17 +15,12 @@ export class Card extends Component {
     this._onEditButtonClick = this._onEditButtonClick.bind(this);
   }
 
-  _isRepeated() {
-    return Object.values(this._repeatingDays).some((it) => it === 1);
-  }
-
   _checkDeadline() {
-    const now = new Date();
-    return this._dueDate < now;
+    return this._dueDate === null ? false : this._dueDate < new Date();
   }
 
   get template() {
-    return `<article class="card card--${this._color} ${this._checkDeadline() ? `card--deadline` : ``} ${this._isRepeated() ? `card--repeat` : ``}" style="">
+    return `<article class="card card--${this._color} ${this._checkDeadline() ? `card--deadline` : ``} ${this.isRepeated() ? `card--repeat` : ``}" style="">
             <form class="card__form" method="get">
               <div class="card__inner">
                 <div class="card__control">
@@ -55,12 +50,12 @@ export class Card extends Component {
                 <div class="card__settings">
                   <div class="card__details">
                     <div class="card__dates">
-                      <fieldset class="card__date-deadline">
+                      <fieldset class="card__date-deadline"  ${!this._dueDate && `disabled`}>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${getDateDeadline(this._dueDate)}">
+                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${this._dueDate && moment(this._dueDate).format(`DD MMMM`)}">
                         </label>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${getTimeDeadline(this._dueDate)}">
+                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${this._dueDate && moment(this._dueDate).format(`hh:mm a`)}">
                         </label>
                       </fieldset>
                     </div>
@@ -108,6 +103,13 @@ export class Card extends Component {
 
   unbind() {
     this._element.removeEventListener(`click`, this._onEditButtonClick);
+  }
+  update(data) {
+    this._title = data.title;
+    this._tags = data.tags;
+    this._color = data.color;
+    this._repeatingDays = data.repeatingDays;
+    this._dueDate = data.dueDate;
   }
 }
 

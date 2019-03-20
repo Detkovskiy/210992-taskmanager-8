@@ -1,4 +1,4 @@
-import moment from '../node_modules/moment/moment.js';
+import moment from 'moment';
 import {Component} from '../src/component';
 
 export class Card extends Component {
@@ -52,10 +52,10 @@ export class Card extends Component {
                     <div class="card__dates">
                       <fieldset class="card__date-deadline"  ${!this._dueDate && `disabled`}>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${this._dueDate && moment(this._dueDate).format(`DD MMMM`)}">
+                          <input class="card__date" type="text" placeholder="4 MARCH" name="date" value="${this._dueDate && moment(this._dueDate, `x`).format(`DD MMMM`)}">
                         </label>
                         <label class="card__input-deadline-wrap">
-                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${this._dueDate && moment(this._dueDate).format(`hh:mm a`)}">
+                          <input class="card__time" type="text" placeholder="11:15 PM" name="time" value="${this._dueDate && moment(this._dueDate, `x`).format(`hh:mm a`)}">
                         </label>
                       </fieldset>
                     </div>
